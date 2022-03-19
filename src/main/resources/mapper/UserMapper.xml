@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：用于指定当前的映射文件和哪个接口进行映射，
+需要指定接口的文件路径，需要指定包的完整路径接口-->
+<mapper namespace="com.example.store.mapper.UserMapper">
+    <insert id="insert" parameterType="user">
+
+    </insert>
+</mapper>
