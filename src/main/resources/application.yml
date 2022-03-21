@@ -6,3 +6,5 @@ spring:
     password: mmmm1111
 server:
   port: 8088
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
