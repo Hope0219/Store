@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.util.Objects;
 
-
+@Component
 public class User extends BaseEntity  implements Serializable{
     private Integer  uid;
     private  String username;
