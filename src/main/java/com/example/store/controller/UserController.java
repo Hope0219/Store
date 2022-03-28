@@ -51,19 +51,36 @@ public class UserController extends BaseController{
        //得到绑定的数据
         System.out.println(getuidFromSession(session));
         System.out.println(getUsernameFromSession(session));
+        String upload = session.getServletContext().getRealPath("upload");
+        System.out.println(upload);
         return new JsonResult<User>(OK,data);
 
     }
     @RequestMapping("/change_password")
     public JsonResult<Void> updatepassword(HttpSession httpSession,
-                                           String oldPassword,
-                                           String newPassword){
+                                           String oldPassword ,String newpassword
+                                           ){
         Integer uid = getuidFromSession(httpSession);
         String username = getUsernameFromSession(httpSession);
-        iUserService.changePassword(uid,username,newPassword,oldPassword);
+        iUserService.changePassword(uid,username,newpassword,oldPassword);
          return new JsonResult<Void>(OK);
     }
 
+    @RequestMapping("/get_byuid")
+    public JsonResult<User> getbyuid(HttpSession session){
+        Integer uid = getuidFromSession(session);
+        User user = iUserService.getByuid(uid);
+        return new JsonResult<User>(OK,user);
+
+    }
+
+    @RequestMapping("/change_Info")
+    public JsonResult<Void> changeinfo(HttpSession httpSession,User user) {
+        Integer uid = getuidFromSession(httpSession);
+        String username = getUsernameFromSession(httpSession);
+        iUserService.updateInfo(uid,user,username);
+        return new JsonResult<>(OK);
+    }
     /*
     @RequestMapping("/reg")
 //    @ResponseBody //此方法的响应结果以json格式进行数据的响应给到前端

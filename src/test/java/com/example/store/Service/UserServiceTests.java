@@ -48,4 +48,26 @@ public class UserServiceTests {
        iUserService.changePassword(7,"管理员","sssaa","sssss");
     }
 
+    @Test
+    public void getByuid(){
+        User byuid = iUserService.getByuid(8);
+        System.out.println(byuid);
+    }
+    @Test
+    public void updateinfo(){
+
+
+        try {
+            User user = iUserService.getByuid(8);
+            String username = user.getUsername();
+
+            iUserService.updateInfo(8,user,username);
+            System.out.println("okok");
+        } catch (Exception e) {
+            System.out.println(e.getClass().getSimpleName());
+            System.out.println(e.getMessage());
+        }
+
+    }
+
 }

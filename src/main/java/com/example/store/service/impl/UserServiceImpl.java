@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.UUID;
 
@@ -109,4 +110,53 @@ public class UserServiceImpl implements IUserService {
         if(row!=1)
             throw new UpdateException("更新时产生未知数据的异常");
     }
+
+    /**
+     * 将修改之前的资料信息展现出来
+     * @param uid
+     * @return
+     */
+    @Override
+    public User getByuid(Integer uid) {
+        User result = userMapper.findByUid(uid);
+        if (result == null) {
+            // 是：抛出UserNotFoundException异常
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        // 检查查询结果中的isDelete是否为1
+        if (result.getIs_delete().equals(1)) {
+            // 是：抛出UserNotFoundException异常
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        User user=new User();
+        user.setUsername(result.getUsername());
+        user.setEmail(result.getEmail());
+        user.setPhone(result.getPhone());
+        user.setGender(result.getGender());
+        return user;
+    }
+
+    @Override
+    public void updateInfo(Integer uid, User user, String username) {
+        User result = userMapper.findByUid(uid);
+        if (result == null) {
+            // 是：抛出UserNotFoundException异常
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        // 检查查询结果中的isDelete是否为1
+        if (result.getIs_delete().equals(1)) {
+            // 是：抛出UserNotFoundException异常
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        user.setUid(uid);
+        user.setModified_user(username);
+        user.setModified_time(new Date());
+        Integer row = userMapper.updateInfo(user);
+        if (row != 1) {
+            throw new UpdateException("更新异常");
+        }
+        System.out.println(row);
+    }
+
+
 }

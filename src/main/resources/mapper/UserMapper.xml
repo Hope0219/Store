@@ -30,9 +30,19 @@
 
     <update id="updatePasswordByUid">
         update t_user set password=#{password},
-                        modified_user=#{modified_user},
-                        modified_time=#{modified_time}
+                        modified_user=#{modifieduser},
+                        modified_time=#{modifiedtime}
           where uid=#{uid}
+    </update>
+
+
+    <update id="updateInfo">
+        update t_user set <if test="phone!=null">phone=#{phone}</if>,
+                          <if test="email!=null">email=#{email}</if>,
+                          <if test="gender!=null">gender=#{gender}</if>,
+                          modified_user=#{modified_user},
+                          modified_time=#{modified_time}
+        where uid=#{uid}
     </update>
 
 
