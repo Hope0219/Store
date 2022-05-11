@@ -136,6 +136,12 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
+    /**
+     * 修改个人资料
+     * @param uid  用户id
+     * @param user  修改资料后的对象信息
+     * @param username  用户名
+     */
     @Override
     public void updateInfo(Integer uid, User user, String username) {
         User result = userMapper.findByUid(uid);
@@ -157,6 +163,26 @@ public class UserServiceImpl implements IUserService {
         }
         System.out.println(row);
     }
+
+    @Override
+    public void updateavatar(Integer uid,String Avatar,String username){
+        User result = userMapper.findByUid(uid);
+        if (result == null) {
+            // 是：抛出UserNotFoundException异常
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        // 检查查询结果中的isDelete是否为1
+        if (result.getIs_delete().equals(1)) {
+            // 是：抛出UserNotFoundException异常
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        Integer row = userMapper.updateAvatarByUid(uid, Avatar, username, new Date());
+        if (row != 1) {
+            throw new UpdateException("更新异常");
+        }
+        System.out.println(row);
+
+    };
 
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 
@@ -57,6 +58,12 @@ public class UserMapperTests {
         user.setModified_time(new Date());
         Integer row = userMapper.updateInfo(user);
         System.out.println(row);
+    }
+    @Test
+    public void update(){
+        userMapper.updateAvatarByUid(7,"/upload/avatar.png","管理员",new Date());
+
+
     }
 
 

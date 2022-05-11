@@ -32,4 +32,5 @@ public interface IUserService {
     void updateInfo(Integer uid, User user,
                     String username);
 
+    void updateavatar(Integer uid,String Avatar,String username);
 }

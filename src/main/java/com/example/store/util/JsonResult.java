@@ -26,6 +26,14 @@ public class JsonResult<E> implements Serializable {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "JsonResult{" +
+                "state=" + state +
+                ", data=" + data +
+                '}';
+    }
+
     public Integer getState() {
         return state;
     }

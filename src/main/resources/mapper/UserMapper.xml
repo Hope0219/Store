@@ -45,6 +45,11 @@
         where uid=#{uid}
     </update>
 
-
+    <update id="updateAvatarByUid">
+        update t_user set avatar=#{avatar},
+                          modified_user=#{modifieduser},
+                          modified_time=#{modifiedtime}
+                       where uid=#{uid}
+    </update>
 
 </mapper>
