@@ -33,6 +33,9 @@ public class BaseController {
         }else if(e instanceof UpdateException){
             jsonResult.setState(5003);
             jsonResult.setMessage("密码错误");
+        }else if(e instanceof AddressCountException){
+            jsonResult.setState(5004);
+            jsonResult.setMessage("用户收货地址超出上限");
         }else if (e instanceof FileEmptyException) {
             jsonResult.setState(6000);
         } else if (e instanceof FileSizeException) {

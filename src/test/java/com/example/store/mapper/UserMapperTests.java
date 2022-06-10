@@ -41,7 +41,7 @@ public class UserMapperTests {
 
         User byUid = userMapper.findByUid(1);
         Integer integer = userMapper.updatePasswordByUid(1,
-                "sss111", "管理员",
+                "aa", "管理员",
                 new Date());
         System.out.println(integer);
         System.out.println(byUid);

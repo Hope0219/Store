@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.store.mapper.CartsMapper">
+    <!-- column是库中的名，property是实体类当中的字段名 -->
+    <resultMap id="CartEntity" type="com.example.store.entity.Cart">
+        <id column="cid" property="cid"></id>
+    </resultMap>
+
+    <insert id="addtocart" useGeneratedKeys="true" keyProperty="cid" >
+        insert into t_cart(uid, pid, price, num, created_user, created_time, modified_user, modified_time)
+        values(#{uid},#{pid},#{price},#{num},#{created_user}, #{created_time}, #{modified_user}, #{modified_time})
+    </insert>
+
+    <select id="cartByuidandpid" resultMap="CartEntity">
+        select * from t_cart where uid=#{uid} and pid=#{pid}
+    </select>
+    <update id="updatecart" >
+        update t_cart set num=#{num}
+        where uid=#{uid} and pid=#{pid}
+    </update>
+    <select id="getcartbyuid" resultType="com.example.store.entity.vo.Cartvo">
+        select             cid,
+                           uid,
+                           pid,
+                           t_cart.price,
+                           t_cart.num AS amount,
+                           t_product.title,
+                           t_product.price AS realprice,
+                           t_product.image
+        from t_cart join t_product   on t_product.id=t_cart.pid where uid=#{uid} ORDER BY t_cart.created_time DESC;
+    </select>
+</mapper>

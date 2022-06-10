@@ -120,9 +120,9 @@
 										<td>联想(Lenovo)小新Air13 Pro 13.3英寸14.8mm超轻薄笔记本电脑</td>
 										<td>¥<span id="goodsPrice1">5298</span></td>
 										<td>
-											<input type="button" value="-" class="num-btn" onclick="reduceNum(1)" />
+											<input type="button" value="-" class="num-btn" onclick="reduceNum(2)" />
 											<input id="goodsCount1" type="text" size="2" readonly="readonly" class="num-text" value="1">
-											<input class="num-btn" type="button" value="+" onclick="addNum(1)" />
+											<input class="num-btn" type="button" value="+" onclick="addNum(2)" />
 										</td>
 										<td><span id="goodsCast1"></span></td>
 										<td>
@@ -174,7 +174,7 @@
 							</div>
 							<div>
 								<span class="pull-right">
-								<input type="submit" value="  结  算  " class="btn btn-primary btn-lg link-account" />
+								<input type="button" value="  结  算  " class="btn btn-primary btn-lg link-account" />
 							</span>
 							</div>
 						</form>
@@ -268,12 +268,61 @@
 		</footer>
 		<!--页脚结束-->
 		<script type="text/javascript">
+
+			$(document).ready(function() {
+				showCartList();
+			});
 			$(function() {
 				//返回链接
 				$(".link-account").click(function() {
 					location.href = "orderConfirm.html";
 				})
-			})
+			});
+			function showCartList() {
+				$("#cart-list").empty();
+				$.ajax({
+					url: "/carts",
+					type: "GET",
+					dataType: "JSON",
+					success: function(json) {
+						let list = json.data;
+						for (let i = 0; i < list.length; i++) {
+							let tr = '<tr>'
+									+ '<td>'
+									+ 	'<input name="cids" value="#{cid}" type="checkbox" class="ckitem" />'
+									+ '</td>'
+									+ '<td><img src="..#{image}collect.png" class="img-responsive" /></td>'
+									+ '<td><a href="product.html?id=#{pid}">#{title}#{msg}</td>'
+									+ '<td>¥<span id="price-#{cid}">#{realPrice}</span></td>'
+									+ '<td>'
+									+ 	'<input type="button" value="-" class="num-btn" onclick="reduceNum(1)" />'
+									+ 	'<input id="num-#{cid}" type="text" size="2" readonly="readonly" class="num-text" value="#{num}">'
+									+ 	'<input class="num-btn" type="button" value="+" onclick="addNum(#{cid})" />'
+									+ '</td>'
+									+ '<td>¥<span id="total-price-#{cid}">#{totalPrice}</span></td>'
+									+ '<td>'
+									+ 	'<input type="button" onclick="delCartItem(this)" class="cart-del btn btn-default btn-xs" value="删除" />'
+									+ '</td>'
+									+ '</tr>';
+							tr = tr.replace(/#{cid}/g, list[i].cid);
+							tr = tr.replace(/#{pid}/g, list[i].pid);
+							tr = tr.replace(/#{title}/g, list[i].title);
+							tr = tr.replace(/#{image}/g, list[i].image);
+							tr = tr.replace(/#{realPrice}/g, list[i].realprice);
+							tr = tr.replace(/#{num}/g, list[i].amount);
+							tr = tr.replace(/#{totalPrice}/g, list[i].realprice * list[i].amount);
+
+							if (list[i].realprice < list[i].price) {
+								tr = tr.replace(/#{msg}/g, "比加入时降价" + (list[i].price - list[i].realprice) + "元");
+							} else {
+								tr = tr.replace(/#{msg}/g, "");
+							}
+							$("#cart-list").append(tr);
+						}
+					}
+				});
+			}
+
 		</script>
 	</body>
 

@@ -42,7 +42,7 @@ public class UserServiceTests {
     @Test
     public void login(){
 
-        User login = iUserService.login("lisi", "sssss");
+        User login = iUserService.login("bb", "bb");
         System.out.println(login);
     }
     @Test
